@@ -4,7 +4,7 @@ const validateInputs = require('../middlewares/validateInputs')
 const validateJWT = require('../middlewares/validateJWT')
 const {
 	SignUp, SignIn,
-	uploadAvatar
+	uploadAvatar, updateUser
 } = require('../controllers/user.controller')
 
 
@@ -36,6 +36,17 @@ module.exports = () => {
 	router.post('/avatar',
 		validateJWT,
 		uploadAvatar
+	)
+
+	router.put('', 
+		validateJWT,
+		[
+			body('email').not().isEmpty().withMessage('El email es obligatorio')
+						.isEmail().withMessage('Ingresa un email valido'),
+			body('name').not().isEmpty().withMessage('El nombre es obligatorio'),
+			validateInputs
+		],
+		updateUser
 	)
 	
 	/* End of Rutas de usuario con autenticacion

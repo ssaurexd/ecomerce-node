@@ -158,3 +158,33 @@ exports.uploadAvatar = ( req = request, res = response ) => {
 		}
 	})
 }
+
+exports.updateUser = async ( req = request, res = response ) => {
+
+	const { uid } = req
+	const { email, name } = req.body
+
+	try {
+		
+		const user = await User.findOneAndUpdate( uid, {
+			email,
+			name
+		}, { 
+			new: true 
+		}).select('-password -createdAt -updatedAt -__v')
+		// con select recibe un string para decirle que valores devolver o si tienen - excluir
+
+		res.json({
+			ok: true,
+			msg: 'Usuario actualizado',
+			user
+		})
+	} catch ( error ) {
+		
+		console.log( error )
+		return res.status( 500 ).json({
+			ok: false,
+			msg: 'Oops! Something went wrong.'
+		})
+	}
+}
