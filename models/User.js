@@ -34,7 +34,12 @@ const UserSchema = new Schema({
 	avatar: {
 		type: String,
 		trim: true
-	}
+	},
+	street: String,
+	city: String,
+	zip: String,
+	phone: String,
+	country: String
 }, {
 	timestamps: true
 })

@@ -4,7 +4,7 @@ const usersRoutes = require('./user.routes')
 
 module.exports = () => {
 
-	router.use( '/users', usersRoutes() )
+	router.use( usersRoutes() )
 
 	return router
 }

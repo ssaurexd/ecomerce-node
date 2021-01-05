@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { body } = require('express-validator')
+const { body, check } = require('express-validator')
 const validateInputs = require('../middlewares/validateInputs')
 const validateJWT = require('../middlewares/validateJWT')
 const {
@@ -10,7 +10,7 @@ const {
 
 module.exports = () => {
 
-	router.post('/signup',
+	router.post('/users/signup',
 		[
 			body('email').not().isEmpty().withMessage('El email es obligatorio')
 						.isEmail().withMessage('Ingresa un email valido'),
@@ -20,7 +20,7 @@ module.exports = () => {
 		], 
 		SignUp
 	)
-	router.post('/signin', 
+	router.post('/users/signin', 
 		[
 			body('email').not().isEmpty().withMessage('El email es obligatorio')
 						.isEmail().withMessage('Ingresa un email valido'),
@@ -33,12 +33,11 @@ module.exports = () => {
 	/* Rutas de usuario con autenticacion
 	-------------------------------------------------- */
 	
-	router.post('/avatar',
+	router.post('/users/avatar',
 		validateJWT,
 		uploadAvatar
 	)
-
-	router.put('', 
+	router.put('/users', 
 		validateJWT,
 		[
 			body('email').not().isEmpty().withMessage('El email es obligatorio')

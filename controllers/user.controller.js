@@ -141,8 +141,7 @@ exports.uploadAvatar = ( req = request, res = response ) => {
 				deleteFile( user.avatar, '/user/avatar' )
 			}
 
-			user.avatar = req.file.filename
-			user.save()
+			await User.findByIdAndUpdate( req.uid, { avatar: req.file.filename })
 			
 			res.json({
 				ok: true,

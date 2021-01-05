@@ -10,6 +10,9 @@ const routes = require('./routes')
 /* Conectar a la base de datos */
 database()
 
+/* Directorio publico */
+app.use( express.static('public') )
+
 /* Habilitar Cors */
 app.use( cors() )
 

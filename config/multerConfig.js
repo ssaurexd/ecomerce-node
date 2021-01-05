@@ -10,7 +10,7 @@ const multerConfig = ( inputName, path, limits, mimetype = [] ) => {
 			cb( null, __dirname + '/../public/uploads/' + path )
 		},
 		filename: function( req, file, cb ) {
-	
+
 			const extension = file.mimetype.split('/')[1]
 			const renameFile = `avatar-${ shortid.generate() }.${ extension }`
 
@@ -21,9 +21,9 @@ const multerConfig = ( inputName, path, limits, mimetype = [] ) => {
 		limits: { fileSize: parseInt( limits ) },
 		storage,
 		fileFilter: ( req, file, cb ) => {
-	
+				
 			if( mimetype.includes( file.mimetype ) ) {
-	
+
 				cb( null, true )
 			} else {
 				
