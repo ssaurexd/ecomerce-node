@@ -10,6 +10,11 @@ const ProductSizeSchema = new Schema({
 	inStock: {
 		type: Number,
 		default: 0
+	},
+	product: {
+		type: Schema.Types.ObjectId,
+		ref: 'Pruduct',
+		required: true
 	}
 }, {
 	timestamps: true

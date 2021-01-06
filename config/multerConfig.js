@@ -12,7 +12,7 @@ const multerConfig = ( inputName, path, limits, mimetype = [] ) => {
 		filename: function( req, file, cb ) {
 
 			const extension = file.mimetype.split('/')[1]
-			const renameFile = `avatar-${ shortid.generate() }.${ extension }`
+			const renameFile = `${ shortid.generate() }.${ extension }`
 
 			cb( null, renameFile )
 		}

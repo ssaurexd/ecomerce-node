@@ -9,12 +9,10 @@ const ProductSchema = new Schema({
 		type: Number,
 		required: true
 	},
-	sizes: [{
-		type: Schema.Types.ObjectId,
-		required: true,
-		ref: 'ProductSize',
-		populate: { select: 'name inStock' }
-	}],
+	inStock: {
+		type: Number,
+		default: 0
+	},
 	description: {
 		type: String
 	},
@@ -31,8 +29,11 @@ const ProductSchema = new Schema({
 		required: true
 	},
 	rating: {
-		type: Number
+		type: Number,
+		default: 0
 	}
+}, {
+	timestamps: true
 })
 
 module.exports = model( 'Product', ProductSchema )

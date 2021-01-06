@@ -1,7 +1,7 @@
 const router = require('express').Router()
-const { body, check } = require('express-validator')
+const { body } = require('express-validator')
 const validateInputs = require('../middlewares/validateInputs')
-const validateJWT = require('../middlewares/validateJWT')
+const { isAuthenticated } = require('../middlewares/auth')
 const {
 	SignUp, SignIn,
 	uploadAvatar, updateUser
@@ -12,19 +12,24 @@ module.exports = () => {
 
 	router.post('/users/signup',
 		[
-			body('email').not().isEmpty().withMessage('El email es obligatorio')
-						.isEmail().withMessage('Ingresa un email valido'),
-			body('password').not().isEmpty().withMessage('La contraseña es obligatoria'),
-			body('name').not().isEmpty().withMessage('El nombre es obligatorio'),
+			body('email')
+				.not().isEmpty().withMessage('El email es obligatorio')
+				.isEmail().withMessage('Ingresa un email valido'),
+			body('password')
+				.not().isEmpty().withMessage('La contraseña es obligatoria'),
+			body('name')
+				.not().isEmpty().withMessage('El nombre es obligatorio').escape(),
 			validateInputs
 		], 
 		SignUp
 	)
 	router.post('/users/signin', 
 		[
-			body('email').not().isEmpty().withMessage('El email es obligatorio')
-						.isEmail().withMessage('Ingresa un email valido'),
-			body('password').not().isEmpty().withMessage('La contraseña es obligatoria'),
+			body('email')
+				.not().isEmpty().withMessage('El email es obligatorio')
+				.isEmail().withMessage('Ingresa un email valido'),
+			body('password')
+				.not().isEmpty().withMessage('La contraseña es obligatoria'),
 			validateInputs
 		],
 		SignIn
@@ -34,15 +39,17 @@ module.exports = () => {
 	-------------------------------------------------- */
 	
 	router.post('/users/avatar',
-		validateJWT,
+		isAuthenticated,
 		uploadAvatar
 	)
 	router.put('/users', 
-		validateJWT,
+		isAuthenticated,
 		[
-			body('email').not().isEmpty().withMessage('El email es obligatorio')
-						.isEmail().withMessage('Ingresa un email valido'),
-			body('name').not().isEmpty().withMessage('El nombre es obligatorio'),
+			body('email')
+				.not().isEmpty().withMessage('El email es obligatorio')
+				.isEmail().withMessage('Ingresa un email valido'),
+			body('name')
+				.not().isEmpty().withMessage('El nombre es obligatorio').escape(),
 			validateInputs
 		],
 		updateUser
