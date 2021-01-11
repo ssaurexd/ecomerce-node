@@ -2,7 +2,7 @@ const router = require('express').Router()
 const { body } = require('express-validator')
 const {
 	getProducts, newProduct,
-	uploadProductImg
+	uploadProductImg, deleteProduct
 } = require('../controllers/product.controller')
 const { isAuthenticatedAndAdmin } = require('../middlewares/auth')
 const validateInputs = require('../middlewares/validateInputs')
@@ -30,6 +30,11 @@ module.exports = () => {
 				validateInputs,
 		],
 		newProduct
+	)
+
+	router.delete('/products/:id', 
+		isAuthenticatedAndAdmin,
+		deleteProduct
 	)
 	
 	/* End of Rutas de productos con autenticacion

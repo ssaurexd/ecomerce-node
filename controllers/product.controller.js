@@ -2,13 +2,14 @@ const { request, response } = require("express")
 const multer = require('multer')
 const Product = require('../models/Product')
 const multerConfig = require('../config/multerConfig')
+const deleteFile = require('../helpers/deleteFile')
 
 
 exports.getProducts = async ( req = request, res = response ) => {
 
 	try {
 		
-		const products = await Product.find().populate('ProductSize')
+		const products = await Product.find()
 
 		res.json({
 			ok: true,
@@ -42,6 +43,38 @@ exports.newProduct = async ( req = request, res = response ) => {
 			ok: true,
 			msg: 'Producto creado',
 			product
+		})
+	} catch ( error ) {
+		
+		console.log( error )
+		res.status( 500 ).json({
+			ok: false,
+			msg: 'Oops! Something went wrong.'
+		})
+	}
+}
+
+exports.deleteProduct = async ( req = request, res = response ) => {
+
+	const { id } = req.params
+	const product = await Product.findById( id )
+
+	if( !product ) {
+
+		return res.status( 404 ).json({
+			ok: false,
+			msg: 'El producto no existe'
+		})
+	}
+
+	try {
+		
+		await Product.findByIdAndDelete( id ) 
+		deleteFile( product.image, 'product' )
+
+		res.json({
+			ok: true,
+			msg: 'Producto eliminado'
 		})
 	} catch ( error ) {
 		
